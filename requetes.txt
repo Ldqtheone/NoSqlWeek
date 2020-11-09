@@ -17,4 +17,4 @@ Requete 6:
 db.users.find( { gender: 'F', occupation: 'writer' }, {occupation:1, name:1, age:1} ).limit(10).sort({ age: -1 })
 
 Requete 7:
-db.users.distinct( occupation)
+db.users.distinct( 'occupation' )

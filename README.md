@@ -96,7 +96,10 @@ Question 6. Quelles sont les dix femmes auteurs (writer) les plus âgées ?
 Question 7. Quelles sont toutes les occupations présentes dans la base de données ?
 
 Insertions, mises-à-jour et suppressions
-Question 8. Insérer un nouvel utilisateur dans la base de données (vous, par exemple). Ne pas inclure pour l’instant le champ movies. Question 9. Choisir un film de la collection movies et mettre à jour l’entrée insérée précédemment en ajoutant le champ movies respectant le schéma adopté par les autres entrées.
+
+Question 8. Insérer un nouvel utilisateur dans la base de données (vous, par exemple). Ne pas inclure pour l’instant le champ movies.
+
+Question 9. Choisir un film de la collection movies et mettre à jour l’entrée insérée précédemment en ajoutant le champ movies respectant le schéma adopté par les autres entrées.
 
 Pour le champ timestamp, utiliser l’heure courante : Math.round(new Date().getTime() / 1000)
 
@@ -118,7 +121,9 @@ Question 17. Modifier la collection movies en replaçant pour chaque film la va
 Question 18. Modifier la collection users en remplaçant pour chaque utilisateur le champ timestamp par un nouveau champ date, de type Date. Le champ timestamp est exprimé en secondes depuis l’epoch Unix, c’est-à-dire le 1er janvier 1970. En javascript, les instances de Date sont crées en utilisant le nombre de millisecondes depuis l’epoch Unix.
 
 Requêtes sur des tableaux
+
 Lecture
+
 Question 19. Combien d’utilisateurs ont noté le film qui a pour id 1196 (Star Wars: Episode V - The Empire Strikes Back (1980)) ?
 
 Question 20. Combien d’utilisateurs ont noté tous les films de la première trilogie Star Wars (id 260, 1196, 1210) ?
@@ -144,6 +149,7 @@ Question 26. (optionnelle) Obtenez les informations portant uniquement sur Tracy
 Question 27. (optionnelle) Combien d’utilisateurs ont donné au film "Untouchables, The" la note de 5.
 
 Ecriture
+
 Question 28. L’utilisateur Barry Erin vient juste de voir le film Nixon, qui a pour id 14 ; il lui attribue la note de 4. Mettre à jour la base de données pour prendre en compte cette note. N’oubliez pas que le champ num_rattings doit représenter le nombre de films notés par un utilisateur.
 
 Question 29. L’utilisatrice Marquis Billie n’a en fait pas vu le film "Santa with Muscles", qui a pour id 1311. Supprimer la note entrée par mégarde dans la base de données.
