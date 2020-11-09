@@ -34,11 +34,16 @@ db.users.updateMany({occupation: 'programmer'}, {$set: { occupation: 'developper
 Requete 16:
 var t = db.movies.find();
 t.forEach(function(fields){
-fields.title.forEach(function(item)){
-var ancienYear = item.slice(item..length - 6);
-var ancienTitle = item.substring(0, item.length-6);
-var value= ancienYear.match(/\((.*)\)/).pop();
-db.movies.updateMany({title: item}, {$set: {title: ancienTitle, year: value}})
-})
-}
-)
+    var ancienYear = fields.title.slice(fields.title.length - 6);
+    var ancienTitle = fields.title.substring(0, fields.title.length - 7);
+    var value= ancienYear.match(/\((.*)\)/).pop();
+    db.movies.update({title: fields.title}, {$set: {title: ancienTitle, year: value}})
+});
+
+Requete 17:
+var m = db.movies.find();
+m.forEach(function(fields){
+    var genre = fields.genres;
+    var splited = genre.split("|");
+    db.movies.update({genres: genre}, {$set: {genres: splited}})
+});
