@@ -47,3 +47,28 @@ m.forEach(function(fields){
     var splited = genre.split("|");
     db.movies.update({genres: genre}, {$set: {genres: splited}})
 });
+
+Requete 18:
+var d = db.users.find({}, {movies: {timestamp: 1}});
+d.forEach(function(fields){
+    var date = new Date(fields * 1000);
+    print(date);
+});
+
+var d = db.users.find();
+d.forEach(function(fields){
+    fields.movies.forEach(function(items){
+        var timestamp = items.timestamp;
+        var date = new Date(timestamp * 1000);
+        var newDate = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+        db.users.update({movies: {timestamp: timestamp}}, {$set: {movies: {timestamp: newDate} }})
+    });
+});
+
+db.users.update(
+    {},
+    { $mul: {'movies.$[].timestamp' : 1000} },
+    { multi: true }
+)
+
+Requete 19:
