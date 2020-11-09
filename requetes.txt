@@ -1,0 +1,20 @@
+Requete 1 :
+db.runCommand( { count: users} )
+
+Requete 2:
+db.runCommand( { count: movies} )
+
+Requete 3:
+db.users.find( { name: 'Clifford Johnathan'}, { occupation: 1, name: 1 } )
+
+Requete 4:
+db.users.find({ age: { $gte: 18, $lt: 30 } }).count();
+
+Requete 5:
+db.users.find({ occupation: { $in: ['scientist','artist'] } }).count();
+
+Requete 6:
+db.users.find( { gender: 'F', occupation: 'writer' }, {occupation:1, name:1, age:1} ).limit(10).sort({ age: -1 })
+
+Requete 7:
+db.users.distinct( occupation)
