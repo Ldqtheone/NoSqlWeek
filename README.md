@@ -72,8 +72,11 @@ La collection users contient des informations portant sur les utilisateurs et le
 		}
 	]
 }
+
 Les requêtes
+
 Requêtes simples
+
 Question 1. Combien y a-t-il d’utilisateurs dans la base de données ?
 
 https://docs.mongodb.com/manual/reference/command/count/
