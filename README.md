@@ -107,6 +107,17 @@ Question 10. Supprimer l’entrée de la base de données.
 
 Question 11. Pour tous les utilisateurs qui ont pour occupation "programmer", changer cette occupation en "developer".
 
+Regex
+https://docs.mongodb.com/manual/reference/operator/query/regex/
+
+Question 12. Combien de films sont sortis dans les années quatre-vingt? (l’année de sortie est indiquée entre parenthèses à la fin du titre de chaque film)
+
+Question 13. Combien y a-t-il de films d’horreur?
+
+Question 14. (optionelle) Combien de films sont sortis entre 1984 et 1992?
+
+Question 15. (optionelle) Combien de films ont pour type à la fois "Musical" et "Romance"?
+
 ForEach
 Question 16. Comme vous avez pu le constater, stocker l’année de sortie du film dans son titre n’est pas très pratique.
 
