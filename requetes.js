@@ -175,3 +175,31 @@ db.users.createIndex(
 Requete 36:
 db.users.find({gender:"F"}, {name: 1}).sort({timestamp: -1}).limit(10).explain('executionStats')
 // Vitesse de traitement plus rapide //
+
+Requete 37:
+db.movies.aggregate([
+    { $match: { year: { $regex: /(199[0-9])/ }} },
+    { $unwind: "$year" },
+    {
+        $group: {
+            "_id": "$year",
+            "count": { $sum: 1 }
+        }
+    },
+    { $sort : { count: -1}}
+])
+
+Requete 38:
+db.users.aggregate([
+    { $unwind: "$movies" },
+    { $match: { 'movies.movieid': 296} },
+    {
+        $group: {
+            "_id": "$movies.movieid",
+            "Avg": { $avg: "$movies.rating" }
+        }
+    }
+])
+
+Requete 39:
+
