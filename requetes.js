@@ -44,6 +44,9 @@ db.movies.find(
 Requete 14:
 db.movies.find({ $or: [ { title: { $regex: /(198[4-9])/i } }, { title: { $regex: /(199[0-2])/i } } ] }).count()
 
+Requete 15:
+db.movies.find({ $and: [ { genres: { $regex: /Musical/} }, { title: { $regex: /Romance/} } ] }).count()
+
 Requete 16:
 var t = db.movies.find();
 t.forEach(function(fields){
@@ -62,12 +65,6 @@ m.forEach(function(fields){
 });
 
 Requete 18:
-var d = db.users.find({}, {movies: {timestamp: 1}});
-d.forEach(function(fields){
-    var date = new Date(fields * 1000);
-    print(date);
-});
-
 var d = db.users.find();
 d.forEach(function(fields){
     fields.movies.forEach(function(items){
@@ -77,7 +74,7 @@ d.forEach(function(fields){
         db.users.update({movies: {timestamp: timestamp}}, {$set: {movies: {timestamp: newDate} }})
     });
 });
-
+// BONNE REPONSE //
 db.users.update(
     {},
     { $mul: {'movies.$[].timestamp' : 1000} },
@@ -97,44 +94,84 @@ Requete 21:
 db.users.find({movies : { $size: 48 }}).count()
 
 Requete 22:
-var d = db.users.find();
-d.forEach(function(users){
+db.users.find().forEach(function(users){
     var numRating = users.movies.length;
     db.users.update({name: users.name}, {$set: { num_rating: numRating }})
 })
 
 Requete 23:
-db.users.find({ $where: 'this.movies.length > 90' }).count()
 db.users.find({num_rating: { $gt: 90}}).count()
 
 Requete 24:
-db.users.find({'movies.timestamp' : { $gte:  (978307200 * 1000)}}, {'movies.timestamp': 1}).count()
-db.users.aggregate([{ $project : { timestamp: "$movies.timestamp"   , name: 1, qty:1} }, {$match:{timestamp: {$elemMatch:{$gte : new Date('01/01/2001').getTime()/1000}} } }, {$group:{_id:"1", total :{$sum: {$size: "$timestamp"}}} }]);
+//db.users.find({'movies.timestamp' : { $gte:  (978307200 * 1000)}}).count()
+db.users.aggregate([
+    {
+        $unwind: '$movies'
+    },
+    {
+        $match: { 'movies.timestamp': { $gt : new Date('2001-01-01')} }
+    },
+    {
+        $count : 'TotalCount'
+    }
+])
 
 Requete 25:
-db.users.find({name: 'Jayson Brad'}, {name:1, movies : 1, movies: {$slice: -3}}).sort({'movies.timestamp': -1})
+db.users.find({name: 'Jayson Brad'}, {name:1, movies: {$slice: -3}}).sort({'movies.timestamp': -1})
 
 Requete 26:
 db.users.find({name: 'Tracy Edward'}, {occupation: 1, age:1, name:1, movies : {$elemMatch: {movieid: 1210}}})
 
 Requete 27:
-db.movies.aggregate([
+db.users.aggregate([
+    { $unwind: "$movies" },
+    { $match: { 'movies.rating': 5} },
     {
-        $match:{'title': "Untouchables, The"}
+        $lookup: {
+            "from": "movies",
+            "localField": "movies.movieid",
+            "foreignField": "_id",
+            "as": "movie"
+        }
+    },
+    { $match: { 'movie.title': "Untouchables, The"} },
+    { $unwind: "$movie" },
+    {
+        $group: {
+            "_id": "$movie._id",
+            "count": { $sum: 1 }
+        }
     },
     {
-        $lookup:
-            {
-                from: 'users',
-                pipeline: [
-                    { $match: { 'movies.rating': { $elemMatch: {$gte : 5 }}} },
-                ],
-                as: "filmId"
-            }
-    },
-    {
-        $count: "Count"
+        $group: {
+            "_id": null,
+            "total": { $sum: "$count" }
+        }
     }
 ])
 
+Requete 28:
+db.users.update(
+    {name: "Barry Erin"},
+    {
+        $set: { movies:{
+                movieid: 14,
+                rating: 4,
+                timestamp: 966715569000
+            }},
+        $setOnInsert: { $inc: {  "num_rating": 1 } }
+    },
+    { upsert: true }
+)
 
+Requete 34:
+db.users.find({gender:"F"}, {name: 1}).sort({timestamp: -1}).limit(10).explain('executionStats')
+
+Requete 35:
+db.users.createIndex(
+    { gender: 1, 'movies.timestamp': 1},
+    { collation: { locale: "fr" } } )
+
+Requete 36:
+db.users.find({gender:"F"}, {name: 1}).sort({timestamp: -1}).limit(10).explain('executionStats')
+// Vitesse de traitement plus rapide //
