@@ -202,4 +202,16 @@ db.users.aggregate([
 ])
 
 Requete 39:
-
+db.users.aggregate([
+    { $unwind: "$movies" },
+    {
+        $group: {
+            "_id": "$_id",
+            "Name": { $first: "$name"} ,
+            "Min": { $min: "$movies.rating" },
+            "Max": { $max: "$movies.rating" },
+            "Avg": { $avg: "$movies.rating" }
+        }
+    },
+    { $sort : { Avg: 1}}
+])
